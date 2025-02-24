@@ -16,7 +16,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-
+               //Build
                 bat 'docker build -t myapp .'  // Changed from sh to bat
             }
         }
