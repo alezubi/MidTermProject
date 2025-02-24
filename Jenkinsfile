@@ -23,5 +23,25 @@ pipeline {
 
         stage('Run Docker Container') {
             steps {
-                // Example: Add Docker run steps here, if needed
-                bat 'docker run -d -p 8080:8080
+                // Fixing the Docker command by ensuring it's on one line
+                bat 'docker run -d -p 8080:8080 myapp'  // Changed from sh to bat
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Example: Add deployment steps here, if needed
+                bat 'echo Deploying to server...'  // Changed from sh to bat
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build and deployment succeeded!'
+        }
+        failure {
+            echo 'Build or deployment failed.'
+        }
+    }
+}
