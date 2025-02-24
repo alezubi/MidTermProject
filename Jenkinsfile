@@ -24,7 +24,7 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 // Fixing the Docker command by ensuring it's on one line
-                bat 'docker run -d -p 8080:8080 myapp'  // Changed from sh to bat
+                bat 'docker run -d -p 8081:8080 myapp'  // Changed from sh to bat
             }
         }
 
