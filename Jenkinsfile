@@ -16,12 +16,15 @@ pipeline {
         stage('Build with Maven') {
             steps {
                 powershell 'mvn clean package -DskipTests'
+                powershell 'dir target'  // Verify the JAR file is present in the target folder
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 powershell '''
+                    # Change directory to Jenkins workspace (root of the project)
+                    cd $env:WORKSPACE
                     docker build -t $env:DOCKER_IMAGE:$env:DOCKER_TAG .
                 '''
             }
@@ -38,8 +41,11 @@ pipeline {
         stage('Deploy Application') {
             steps {
                 powershell '''
+                    # Stop and remove any existing container
                     docker stop midtermproject -ErrorAction SilentlyContinue
                     docker rm midtermproject -ErrorAction SilentlyContinue
+
+                    # Run the new container from the latest Docker image
                     docker run -d --name midtermproject -p 8080:8080 $env:DOCKER_IMAGE:$env:DOCKER_TAG
                 '''
             }
