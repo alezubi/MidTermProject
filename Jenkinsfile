@@ -10,7 +10,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    // Clean and install the Maven project
+                    // Build the Maven project
                     sh 'mvn clean install'
                 }
             }
@@ -19,7 +19,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Build Docker image using Dockerfile
+                    // Build Docker image
                     sh 'docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .'
                 }
             }
@@ -36,7 +36,8 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                // Add deployment steps (e.g., push to Docker Hub, deploy to a server, etc.)
+                // Any deployment logic here (optional)
+                echo 'Deploying application...'
             }
         }
     }
