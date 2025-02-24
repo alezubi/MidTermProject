@@ -2,43 +2,50 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'myapp'
-        DOCKER_TAG = 'latest'
+        // Define any necessary environment variables here
     }
 
     stages {
+        stage('Checkout SCM') {
+            steps {
+                checkout scm
+            }
+        }
+
         stage('Build') {
             steps {
-                script {
-                    // Build the Maven project
-                    sh 'mvn clean install'
-                }
+                bat 'mvn clean install'  // Changed from sh to bat
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    // Build Docker image
-                    sh 'docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .'
-                }
+                // Example: Add Docker build steps here, if needed
+                bat 'docker build -t myapp .'  // Changed from sh to bat
             }
         }
 
         stage('Run Docker Container') {
             steps {
-                script {
-                    // Run the Docker container
-                    sh 'docker run -d -p 8080:8080 ${DOCKER_IMAGE}:${DOCKER_TAG}'
-                }
+                // Example: Add Docker run steps here, if needed
+                bat 'docker run -d -p 8080:8080 myapp'  // Changed from sh to bat
             }
         }
 
         stage('Deploy') {
             steps {
-                // Any deployment logic here (optional)
-                echo 'Deploying application...'
+                // Example: Add deployment steps here, if needed
+                bat 'echo Deploying to server...'  // Changed from sh to bat
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build and deployment succeeded!'
+        }
+        failure {
+            echo 'Build or deployment failed.'
         }
     }
 }
