@@ -20,15 +20,15 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
-            steps {
-                powershell '''
-                    # Change directory to Jenkins workspace (root of the project)
-                    cd $env:WORKSPACE
-                    docker build -t $env:DOCKER_IMAGE:$env:DOCKER_TAG .
-                '''
-            }
-        }
+       stage('Build Docker Image') {
+           steps {
+               script {
+                   // Make sure to set the build context correctly for Docker
+                   sh 'docker build -t midtermproject C:/Users/aleja/IdeaProjects/Maven Project/MidTermProject'
+               }
+           }
+       }
+
 
         stage('Push Docker Image') {
             steps {
